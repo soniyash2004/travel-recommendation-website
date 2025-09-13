@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Recommendations - Home</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+        }
+
+        /* Recommendations Section */
+        .recommendations {
+            background: white;
+            margin: 2rem 0;
+            padding: 3rem 0;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .recommendation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        .recommendation-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .recommendation-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .card-description {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .card-category {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(102, 126, 234, 0.9);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Search Section */
+        .search-section {
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .search-container {
+            display: flex;
+            max-width: 600px;
+            margin: 0 auto;
+            gap: 1rem;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: #667eea;
+        }
+
+        .search-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .search-btn:hover {
+            background: #5a6fd8;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0,0,0,0.1);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background: white;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0,0,0,0.05);
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .search-container {
+                flex-direction: column;
+                padding: 0 1rem;
+            }
+
+            .recommendation-grid {
+                grid-template-columns: 1fr;
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">TravelDiscover</div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#home" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#about" class="nav-link">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact" class="nav-link">Contact Us</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <h1>Discover Your Next Adventure</h1>
+            <p>Find the perfect destination based on your preferences and interests</p>
+            <a href="#recommendations" class="cta-button">Explore Destinations</a>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <section class="search-section">
+        <div class="container">
+            <h2 style="color: white; margin-bottom: 1rem;">Search Destinations</h2>
+            <div class="search-container">
+                <input type="text" class="search-input" id="searchInput" placeholder="Enter destination, country, or type...">
+                <button class="search-btn" onclick="searchDestinations()">Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recommendations Section -->
+    <section id="recommendations" class="recommendations">
+        <div class="container">
+            <h2 class="section-title">Popular Destinations</h2>
+            
+            <!-- Beach Recommendations -->
+            <h3 style="text-align: center; margin-bottom: 2rem; color: #667eea;">🏖️ Beach Destinations</h3>
+            <div class="recommendation-grid" id="beachGrid">
+                <!-- Beach cards will be populated by JavaScript -->
+            </div>
+
+            <!-- Temple Recommendations -->
+            <h3 style="text-align: center; margin: 3rem 0 2rem; color: #667eea;">🏛️ Temple & Cultural Sites</h3>
+            <div class="recommendation-grid" id="templeGrid">
+                <!-- Temple cards will be populated by JavaScript -->
+            </div>
+
+            <!-- Country Recommendations -->
+            <h3 style="text-align: center; margin: 3rem 0 2rem; color: #667eea;">🌍 Country Highlights</h3>
+            <div class="recommendation-grid" id="countryGrid">
+                <!-- Country cards will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="recommendations">
+        <div class="container">
+            <h2 class="section-title">About Us</h2>
+            <div style="max-width: 800px; margin: 0 auto; text-align: center; padding: 0 2rem;">
+                <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem;">
+                    Welcome to TravelDiscover, your ultimate companion for finding the perfect travel destinations. 
+                    We are passionate about helping travelers discover amazing places that match their interests and preferences.
+                </p>
+                <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem;">
+                    Our team of travel experts curates the best destinations worldwide, from pristine beaches to ancient temples, 
+                    ensuring you have access to comprehensive information and stunning visuals to make informed travel decisions.
+                </p>
+                <p style="font-size: 1.1rem; line-height: 1.8;">
+                    Whether you're seeking adventure, relaxation, or cultural experiences, we're here to inspire your next journey.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Us Section -->
+    <section id="contact" class="recommendations">
+        <div class="container">
+            <h2 class="section-title">Contact Us</h2>
+            <div style="max-width: 600px; margin: 0 auto;">
+                <form id="contactForm" style="background: #f8f9fa; padding: 2rem; border-radius: 15px;">
+                    <div style="margin-bottom: 1.5rem;">
+                        <label for="name" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Name:</label>
+                        <input type="text" id="name" name="name" required 
+                               style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                    </div>
+                    <div style="margin-bottom: 1.5rem;">
+                        <label for="email" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Email:</label>
+                        <input type="email" id="email" name="email" required 
+                               style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                    </div>
+                    <div style="margin-bottom: 1.5rem;">
+                        <label for="message" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Message:</label>
+                        <textarea id="message" name="message" rows="5" required 
+                                  style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; resize: vertical;"></textarea>
+                    </div>
+                    <button type="submit" class="cta-button" style="width: 100%;">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 TravelDiscover. All rights reserved. Discover your next adventure with us!</p>
+        </div>
+    </footer>
+
+    <script>
+        // Sample data for recommendations
+        const beachDestinations = [
+            {
+                name: "Maldives",
+                description: "Crystal clear waters and overwater bungalows make this a paradise destination.",
+                image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=200&fit=crop",
+                category: "Beach"
+            },
+            {
+                name: "Bora Bora",
+                description: "French Polynesian island known for its stunning lagoon and luxury resorts.",
+                image: "https://images.unsplash.com/photo-1589394815804-964ed0be2eb5?w=400&h=200&fit=crop",
+                category: "Beach"
+            }
+        ];
+
+        const templeDestinations = [
+            {
+                name: "Angkor Wat, Cambodia",
+                description: "Ancient temple complex and UNESCO World Heritage site with stunning architecture.",
+                image: "https://images.unsplash.com/photo-1563492065517-538a9a7df2b8?w=400&h=200&fit=crop",
+                category: "Temple"
+            },
+            {
+                name: "Kyoto Temples, Japan",
+                description: "Beautiful traditional temples surrounded by serene gardens and bamboo forests.",
+                image: "https://images.unsplash.com/photo-1478436127897-769e1b3f0f36?w=400&h=200&fit=crop",
+                category: "Temple"
+            }
+        ];
+
+        const countryDestinations = [
+            {
+                name: "Switzerland",
+                description: "Alpine landscapes, pristine lakes, and charming mountain villages.",
+                image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=200&fit=crop",
+                category: "Country"
+            },
+            {
+                name: "New Zealand",
+                description: "Diverse landscapes from mountains to beaches, perfect for adventure seekers.",
+                image: "https://images.unsplash.com/photo-1507699622108-4be3abd695ad?w=400&h=200&fit=crop",
+                category: "Country"
+            }
+        ];
+
+        // Function to create recommendation cards
+        function createRecommendationCard(destination) {
+            return `
+                <div class="recommendation-card" onclick="showDestinationDetails('${destination.name}')">
+                    <div class="card-image" style="background-image: url('${destination.image}')">
+                        <span class="card-category">${destination.category}</span>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">${destination.name}</h3>
+                        <p class="card-description">${destination.description}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Function to populate recommendations
+        function populateRecommendations() {
+            // Populate beach destinations
+            const beachGrid = document.getElementById('beachGrid');
+            beachGrid.innerHTML = beachDestinations.map(createRecommendationCard).join('');
+
+            // Populate temple destinations
+            const templeGrid = document.getElementById('templeGrid');
+            templeGrid.innerHTML = templeDestinations.map(createRecommendationCard).join('');
+
+            // Populate country destinations
+            const countryGrid = document.getElementById('countryGrid');
+            countryGrid.innerHTML = countryDestinations.map(createRecommendationCard).join('');
+        }
+
+        // Function to show destination details
+        function showDestinationDetails(destinationName) {
+            alert(`More information about ${destinationName} would be displayed here. This could include detailed descriptions, more images, booking options, and travel tips.`);
+        }
+
+        // Search functionality
+        function searchDestinations() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const allDestinations = [...beachDestinations, ...templeDestinations, ...countryDestinations];
+            
+            if (searchTerm.trim() === '') {
+                alert('Please enter a search term');
+                return;
+            }
+
+            const results = allDestinations.filter(dest => 
+                dest.name.toLowerCase().includes(searchTerm) || 
+                dest.description.toLowerCase().includes(searchTerm) ||
+                dest.category.toLowerCase().includes(searchTerm)
+            );
+
+            if (results.length > 0) {
+                const resultNames = results.map(dest => dest.name).join(', ');
+                alert(`Found destinations: ${resultNames}`);
+            } else {
+                alert('No destinations found matching your search criteria.');
+            }
+        }
+
+        // Mobile navigation toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                }
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // Contact form submission
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            if (name && email && message) {
+                alert(`Thank you, ${name}! Your message has been received. We'll get back to you at ${email} soon.`);
+                document.getElementById('contactForm').reset();
+            }
+        });
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            populateRecommendations();
+        });
+
+        // Add enter key functionality to search
+        document.getElementById('searchInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                searchDestinations();
+            }
+        });
+    </script>
+</body>
+</html>
